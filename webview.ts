@@ -1,10 +1,11 @@
 import {webviewso} from "./libwebview.ts";
-import {run,sudorun} from "./predef.ts";
+import {run,sudorun,openText,writeText} from "./predef.ts";
 
 const encoder2 = new TextEncoder();
 let preloaded = false;
 const instances = [];
 const soPath =  createTempFileFromBase64(webviewso);
+const configPath = `${Deno.env.get("HOME")}/.config/Format-usb-js/prev.status` ;
 
 function createTempFileFromBase64(base64: string): string {
     const binaryData = Uint8Array.from(atob(base64), c => c.charCodeAt(0));
@@ -17,7 +18,13 @@ function dlopen(symbols) {
     if (Deno.dlopen === undefined) {
         throw new Error("`--unstable-ffi` is required");
     }
-    return Deno.dlopen(soPath, symbols);
+    let dlopn =null;
+    try {
+        dlopn = Deno.dlopen(soPath, symbols);
+    } catch (err) {
+        writeText(configPath, `status_error`);
+    }
+    return dlopn;
 }
 
 function encodeCString(value) {
@@ -65,6 +72,7 @@ const manageSymlink=()=>{
     }
 
     if ((jscorsLink == `ok`) && (webkitLink == `ok`)) {                 // both link working fine
+        writeText(configPath, `status_ok`);
         //        run(`notify-send webkit2-status Already-Installed`);
         return;
     }
@@ -96,7 +104,10 @@ const manageSymlink=()=>{
     }
 }
 
-manageSymlink();
+const status_prev = openText(configPath);
+if (status_prev != `status_ok`) {
+    manageSymlink();
+}
 
 const lib = dlopen({
     "webview_create": {

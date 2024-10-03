@@ -1,3 +1,5 @@
+import {dirname} from "jsr:@std/path/dirname";
+
 export const debug = false;
 
 export class usbline { 
@@ -123,3 +125,20 @@ export const run=(com:string, r=`code`) : string=>{
   return rv;
 }
 
+
+export const openText=(path:string)=>{
+  let filetext = ``;
+  try {
+    filetext = Deno.readTextFileSync(path);
+  } catch (err) {
+    log(`file ${path} not exist.`);
+  }
+  return filetext;
+}
+
+export const writeText=(path:string, text:string)=>{
+  const dir = dirname(path);
+  Deno.mkdirSync(dir, {recursive:true});
+  Deno.writeTextFileSync(path,text)
+
+}
