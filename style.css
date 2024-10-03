@@ -1,0 +1,104 @@
+* { box-sizing: border-box; }
+
+body {
+  background-color: #f7f7f7;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  color: #333;
+  font-family: Arial, sans-serif;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+
+#usbselect {
+  height: 55px;
+  width: 80% ;
+}
+
+#btnRefresh {
+  height: 55px;
+  width: 15%;
+  height: container-intrinsic-height;
+}
+
+select {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  margin-bottom: 15px;
+  padding: 10px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input[type="button"] {
+  background-color: #007BFF;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  margin-left: 5px;
+  margin-right: 5px;
+  padding: 10px;
+  transition: background-color 0.3s;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input[type="text"] {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  margin-bottom: 15px;
+  padding: 10px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+}
+
+#usbtype {
+  width: 100%;
+}
+
+#btnFormat {
+  width: 100%;
+}
+
+select:focus, input[type="text"]:focus {   /* Focus */
+  border-color: #007BFF;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  outline: none;
+}
+
+.right-button:hover {
+  background-color: #0056b3;
+}
+
+input[type="button"]:hover {
+  background-color: #0056b3;
+}
+
+dialog {
+  border: none;
+  border-radius: 9px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  background-color: #fff;
+  max-width: 400px;
+  margin: auto;
+  padding: 20px;
+}
+
+dialog p {
+  color: #333;
+  margin-bottom: 15px;
+}
+

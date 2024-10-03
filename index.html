@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Format disk</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body oncontextmenu="return false;"> 
+        <label for="usbselect">USB </label>
+        <select id=usbselect class="left-select"> </select>
+        <input type="button" id="btnRefresh" class="right-button" value="⟳">
+        <br>
+
+        <label for="usblabel">Label </label>
+        <input id=usblabel type=text>
+        <br>
+
+        <label for="usbtype">Type </label>
+        <select id="usbtype">
+            <option>FAT32</option>
+            <option>EXFAT</option>
+            <option>EXT4</option>
+        </select>
+        <br>
+        <input id="btnFormat" type=button value=Format>
+
+
+
+        <script src="script.js" type="module"></script>
+    </body>
+</html>

@@ -1,0 +1,7 @@
+{
+  "compilerOptions": {
+    "lib": ["dom", "esnext", "deno.ns", "deno.unstable"],       
+    "strict": true               
+  }
+}
+
