@@ -19,14 +19,12 @@ chmod +x format-usb
 <h2>Building from Source</h2>
 <p>If you want to build the project from the source code, run the following command:</p>
 <pre><code>
-
-git clone https://github.com/tinyCodes1/Format-usb-js
+git clone git@github.com:tinyCodes1/Format-usb-js.git
 cd Format-usb-js
 wget -c https://github.com/denoland/deno/releases/download/v1.46.3/deno-x86_64-unknown-linux-gnu.zip
 unzip deno-x86_64-unknown-linux-gnu.zip
 chmod +x ./deno
 ./deno run -A make.ts
-
 </code></pre>
 
 <h2>License</h2>
