@@ -10,7 +10,7 @@
 </ul>
 
 <h2>Usage</h2>
-<p>Download the executable from the <strong>Dist</strong> folder and follow the steps below:</p>
+<p>Download the executable from <strong><a href="https://github.com/tinyCodes1/Format-usb-js/releases/download/v0.1/format-usb">Releases</a></strong> and follow the steps below:</p>
 <pre><code>
 chmod +x format-usb
 ./format-usb
@@ -21,7 +21,7 @@ chmod +x format-usb
 <pre><code>
 git clone git@github.com:tinyCodes1/Format-usb-js.git
 cd Format-usb-js
-wget -c https://github.com/denoland/deno/releases/download/v1.46.3/deno-x86_64-unknown-linux-gnu.zip
+curl -L -O -C - https://github.com/denoland/deno/releases/download/v1.46.3/deno-x86_64-unknown-linux-gnu.zip
 unzip deno-x86_64-unknown-linux-gnu.zip
 chmod +x ./deno
 ./deno run -A make.ts
