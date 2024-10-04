@@ -4,6 +4,8 @@
  *  Caution : build folder will be auto-deleted, Internet required for compilation
  */
 
+import {removeDir} from "./predef.ts";
+
 interface outObj {
   stdout : Uint8Array,
   stderr : Uint8Array
@@ -14,26 +16,6 @@ const log =(obj: outObj)=> {
   console.log(textout);
   const texterr = decoder.decode(obj.stderr);
   console.log(texterr);
-}
-
-
-const removeContent = async(dir:string) => {
-  try {
-    const list = Deno.readDirSync(dir);
-    for await (const file of list) {
-      const filepath = `${dir}/${file.name}`;
-      if (file.isDirectory) {
-        await removeContent(filepath);
-      } else if (file.isSymlink) {
-        Deno.removeSync(filepath);
-      } else if (file.isFile) {
-        Deno.removeSync(filepath);
-      }
-    }
-    Deno.removeSync(dir);
-  } catch (err) {
-    console.log(err);
-  }
 }
 
 const main=async()=>{
@@ -90,7 +72,7 @@ const main=async()=>{
   }
   const exec = new Deno.Command("./deno", { args: [ "compile", "--no-check", "--unstable-ffi", "-A", "-o", "Dist/format-usb", "build/main.js" ] }).outputSync();
   log(exec);
-  await removeContent(`build`);
+  await removeDir(`build`);
  Deno.removeSync(`script.js`); 
 
 };

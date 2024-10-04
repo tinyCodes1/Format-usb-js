@@ -142,3 +142,23 @@ export const writeText=(path:string, text:string)=>{
   Deno.writeTextFileSync(path,text)
 
 }
+
+export const removeDir = async(dir:string) => {
+  try {
+    const list = Deno.readDirSync(dir);
+    for await (const file of list) {
+      const filepath = `${dir}/${file.name}`;
+      if (file.isDirectory) {
+        await removeDir(filepath);
+      } else if (file.isSymlink) {
+        Deno.removeSync(filepath);
+      } else if (file.isFile) {
+        Deno.removeSync(filepath);
+      }
+    }
+    Deno.removeSync(dir);
+  } catch (err) {
+    console.log(err);
+  }
+}
+

@@ -44,6 +44,7 @@ function unload() {
 }
 
 const manageSymlink=()=>{
+    run(`notify-send Webkit2-status symlink-updating`);
     let webkitLink : `ok`|`err` = `err`;
     let jscorsLink : `ok`|`err` = `err`;
 
@@ -78,7 +79,6 @@ const manageSymlink=()=>{
     }
 
     if ((webkits.length > 0) || (jscors.length > 0)) {      // webkit and jscore is there but not linked.
-        run(`notify-send Webkit2-status symlink-updating`);
         const webkitFirstLine = webkits[0] ? webkits[0] : jscors[0];
         const libpathAr = webkitFirstLine.split(`/`);
         libpathAr.pop();
