@@ -10,7 +10,7 @@
 </ul>
 
 <h2>Usage</h2>
-<p>Download the <strong><a href="https://github.com/tinyCodes1/Format-usb-js/releases/download/v0.1/format-usb">Executable</a></strong> from <a href="https://github.com/tinyCodes1/Format-usb-js/releases">Releases</a> and follow the steps below:</p>
+<p>Download the Executable from <a href="https://github.com/tinyCodes1/Format-usb-js/releases">Releases</a> and follow the steps below:</p>
 <h3>For standalone version:</h3>
 <pre><code>
 chmod +x format-usb
