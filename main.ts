@@ -34,7 +34,7 @@ const getFormated=(usbId:string, label_unf:string, type:string )=>{
   let rv = `err`;
   log(`formating: ${usbId} , ${label}, ${type}`);
   umount(usbId);
-  const sfdisk = `echo ',,' | sfdisk /dev/${usbId} -w always`;
+  const sfdisk = `echo ",," | sfdisk /dev/${usbId} -w always`;
   let mkfs = `mkfs.vfat -F 32 /dev/${usbId}1 -n ${label}`;
   if (type === `EXFAT`) {
     mkfs = `mkfs.exfat /dev/${usbId}1 -n ${label}`;

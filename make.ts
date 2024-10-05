@@ -5,6 +5,7 @@
  */
 
 import {removeDir} from "./predef.ts";
+import {cppText} from "./cpptemplate.ts";
 
 interface outObj {
   stdout : Uint8Array,
@@ -31,7 +32,6 @@ const main=async()=>{
 
 
   // 1. copy files
-  //  Deno.copyFileSync(`sep.ts`, `build/sep.ts`);
   Deno.copyFileSync(`webview.ts`, `build/webview.ts`);
   Deno.copyFileSync(`libwebview.ts`, `build/libwebview.ts`);
   Deno.copyFileSync(`predef.ts`, `build/predef.ts`);
@@ -72,8 +72,22 @@ const main=async()=>{
   }
   const exec = new Deno.Command("./deno", { args: [ "compile", "--no-check", "--unstable-ffi", "-A", "-o", "Dist/format-usb", "build/main.js" ] }).outputSync();
   log(exec);
+
+
+
+  // 7. make executable - cpp - deno installed
+  const mainjsText = Deno.readTextFileSync(`build/main.js`);
+  const oldLine = `std::string jsCode = R"()";`;
+  const newLine = `std::string jsCode = R"(  ${mainjsText}  )";`;
+  const cppFileText = cppText.replace(oldLine, newLine);
+  Deno.writeTextFileSync(`build/formatUsb.cpp`, cppFileText );
+
+  const cppmake = new Deno.Command("g++", { args: [ "-o", "Dist/format-usb-tiny", "build/formatUsb.cpp" ] }).outputSync();
+  log(cppmake);
+
+  // 8. Remove files
   await removeDir(`build`);
- Deno.removeSync(`script.js`); 
+  Deno.removeSync(`script.js`); 
 
 };
 
