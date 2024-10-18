@@ -48,7 +48,6 @@ export const messageBox=(messageText:string, ok:()=>void, type:`A`|`AA`|`AAA`)=>
   const boxText = document.createElement(`p`) as HTMLParagraphElement;
   boxText.innerHTML = messageText;
   box.appendChild(boxText);
-
   if ((type == `AA`) || (type == `AAA`)) {
     const boxButton_OK = document.createElement(`Input`) as HTMLInputElement;
     boxButton_OK.type = `Button`;
@@ -140,7 +139,6 @@ export const writeText=(path:string, text:string)=>{
   const dir = dirname(path);
   Deno.mkdirSync(dir, {recursive:true});
   Deno.writeTextFileSync(path,text)
-
 }
 
 export const removeDir = async(dir:string) => {

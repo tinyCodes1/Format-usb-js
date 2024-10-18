@@ -4,29 +4,29 @@
  *  Caution : build folder will be auto-deleted, Internet required for compilation
  */
 
-import {removeDir} from "./predef.ts";
+import {removeDir, run} from "./predef.ts";
 import {cppText} from "./cpptemplate.ts";
 
-interface outObj {
-  stdout : Uint8Array,
-  stderr : Uint8Array
+const debug = false;
+
+// deno-lint-ignore no-explicit-any
+const log=(logMessage:any)=>{
+  if (debug) {
+    console.log(logMessage);
+  }
 }
-const decoder = new TextDecoder();
-const log =(obj: outObj)=> {
-  const textout = decoder.decode(obj.stdout);
-  console.log(textout);
-  const texterr = decoder.decode(obj.stderr);
-  console.log(texterr);
-}
+
 
 const main=async()=>{
   try {
     Deno.mkdirSync(`build`);
   } catch (err) {
-    if (err.name == `AlreadyExists`) {
-      console.log(`directory "build" already exist. will be deleted.`);
-    } else {
-      console.log(err);
+    if (err instanceof Error) {
+      if (err.name == `AlreadyExists`) {
+        console.log(`directory "build" already exist. will be deleted.`);
+      } else {
+        console.log(err);
+      }
     }
   }
 
@@ -36,14 +36,17 @@ const main=async()=>{
   Deno.copyFileSync(`libwebview.ts`, `build/libwebview.ts`);
   Deno.copyFileSync(`predef.ts`, `build/predef.ts`);
 
+
   // 2. make script.js
-  const bundle =  new Deno.Command("./deno", { args: [ "bundle", "--no-check", "script.ts", "script.js" ] }).outputSync();
+  const bundle = run(`./deno run -A bundl.ts script.ts -o script.js`, `out`);
   log(bundle);
 
+
   // 3. make build/index.b.html
-  const compil = new Deno.Command("./deno", { args: [ "run", "--allow-read", "--allow-net", "--allow-run", "--allow-env", "--allow-write", "compil.ts", "index.html" ] }).outputSync();
+  const compil = run(`./deno run -A compil.ts index.html`);
   log(compil);
   Deno.renameSync(`index.b.html`, `build/index.b.html`);
+
 
   // 4. make build/main.ts
   const indexb = Deno.readTextFileSync(`build/index.b.html`);
@@ -56,7 +59,7 @@ const main=async()=>{
 
 
   // 5. make build/main.js
-  const mainjs =  new Deno.Command("./deno", { args: [ "bundle", "--no-check", "build/main.ts", "build/main.js" ]}).outputSync();
+  const mainjs = run(`./deno run -A bundl.ts build/main.ts -o build/main.js`);
   log(mainjs);
 
 
@@ -64,15 +67,17 @@ const main=async()=>{
   try {
     Deno.mkdirSync(`Dist`);
   } catch (err) {
-    if (err.name == `AlreadyExists`) {
-      console.log(`directory "build" already exist. will be deleted.`);
-    } else {
-      console.log(err);
+    if (err instanceof Error) {
+      if (err.name == `AlreadyExists`) {
+        console.log(`directory "Dist" already exist.`);
+      } else {
+        console.log(err);
+      }
     }
   }
-  const exec = new Deno.Command("./deno", { args: [ "compile", "--no-check", "--unstable-ffi", "-A", "-o", "Dist/format-usb", "build/main.js" ] }).outputSync();
+  console.log(`compiling ...`);
+  const exec = run(`./deno compile --no-check --unstable-ffi -A -o Dist/format-usb build/main.js`);
   log(exec);
-
 
 
   // 7. make executable - cpp - deno installed
@@ -81,14 +86,13 @@ const main=async()=>{
   const newLine = `std::string jsCode = R"(  ${mainjsText}  )";`;
   const cppFileText = cppText.replace(oldLine, newLine);
   Deno.writeTextFileSync(`build/formatUsb.cpp`, cppFileText );
-
-  const cppmake = new Deno.Command("g++", { args: [ "-o", "Dist/format-usb-tiny", "build/formatUsb.cpp" ] }).outputSync();
+  const cppmake = run(`g++ -o Dist/format-usb-tiny build/formatUsb.cpp`);
   log(cppmake);
+
 
   // 8. Remove files
   await removeDir(`build`);
   Deno.removeSync(`script.js`); 
-
 };
 
-await main();
+main();

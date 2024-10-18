@@ -27,7 +27,7 @@ chmod +x format-usb-tiny
 <pre><code>
 git clone git@github.com:tinyCodes1/Format-usb-js.git
 cd Format-usb-js
-curl -L -O -C - https://github.com/denoland/deno/releases/download/v1.46.3/deno-x86_64-unknown-linux-gnu.zip
+curl -L -O -C- https://github.com/denoland/deno/releases/download/v2.0.2/deno-x86_64-unknown-linux-gnu.zip
 unzip deno-x86_64-unknown-linux-gnu.zip
 chmod +x ./deno
 ./deno run -A make.ts

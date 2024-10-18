@@ -49,15 +49,15 @@ const manageSymlink=()=>{
     let jscorsLink : `ok`|`err` = `err`;
 
     const webkits = [];
-    const webkitLine = run(`find / -type f -name libwebkit*-*so*`, `out`);
+    const webkitLine = run(`find /lib -type f -name libwebkit*-*so*`, `out`);
     webkits.push(...webkitLine.split(`\n`));
-    const  webkitLine2 = run(`find / -type l -name libwebkit*-*so*`, `out`);
+    const  webkitLine2 = run(`find /lib -type l -name libwebkit*-*so*`, `out`);
     webkits.push(...webkitLine2.split(`\n`));
 
     const jscors = [];
-    const jsCoreLine = run(`find / -type f -name libjavascriptcore*-*so*`, `out`);
+    const jsCoreLine = run(`find /lib -type f -name libjavascriptcore*-*so*`, `out`);
     jscors.push(...jsCoreLine.split(`\n`));
-    const jsCoreLine2 = run(`find / -type l -name libjavascriptcore*-*so*`, `out`);
+    const jsCoreLine2 = run(`find /lib -type l -name libjavascriptcore*-*so*`, `out`);
     jscors.push(...jsCoreLine2.split(`\n`));
 
     for (const webline of webkits) {
@@ -245,6 +245,7 @@ class Webview {
     }
     destroy() {
         Deno.removeSync(soPath);
+        Deno.exit();
         for (const callback of Object.keys(this.#callbacks)){
             this.unbind(callback);
         }
